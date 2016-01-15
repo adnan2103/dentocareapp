@@ -1,0 +1,122 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-3.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Dento Care</title>
+  <link th:href="@{/resources/css/bootstrap.css}" href="/resources/css/bootstrap.css" rel="stylesheet"></link>
+  <style type="message/css">
+    /* Sticky footer styles
+    -------------------------------------------------- */
+
+    html,
+    body {
+      height: 100%;
+      /* The html and body elements cannot have any padding or margin. */
+    }
+
+    /* Wrapper for page content to push down footer */
+    #wrap {
+      min-height: 100%;
+      height: auto !important;
+      height: 100%;
+      /* Negative indent footer by it's height */
+      margin: 0 auto -60px;
+    }
+
+    /* Set the fixed height of the footer here */
+    #push,
+    #footer {
+      height: 60px;
+    }
+
+    #footer {
+      background-color: #f5f5f5;
+    }
+
+    /* Lastly, apply responsive CSS fixes as necessary */
+    @media (max-width: 767px) {
+      #footer {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    /* Custom page CSS
+    -------------------------------------------------- */
+    /* Not required for template or sticky footer method. */
+
+    .container {
+      width: auto;
+      max-width: 680px;
+    }
+
+    .container .credit {
+      margin: 20px 0;
+      message-align: center;
+    }
+
+    a {
+      color: green;
+    }
+
+    .navbar-form {
+      margin-left: 1em;
+    }
+
+  </style>
+  <link th:href="@{resources/css/bootstrap-responsive.css}" href="/resources/css/bootstrap-responsive.css"
+        rel="stylesheet"></link>
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+
+<body>
+<div id="wrap">
+  <div class="navbar navbar-inverse navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+
+        <div class="nav-collapse collapse"
+             th:with="currentDoctor=${#httpServletRequest.userPrincipal?.principal}">
+          <div th:if="${currentDoctor != null}">
+            <form class="navbar-form pull-right" th:action="@{/logout}" method="post">
+              <input type="submit" value="Log out"/>
+            </form>
+            <p class="nav pull-right" th:text="${currentDoctor.firstName}">
+              sample_user
+            </p>
+          </div>
+          <div th:if="${currentDoctor != null}">
+          <ul class="nav">
+            <li><a th:href="@{/}">Search Patient</a></li>
+            <li><a th:href="@{/(form)}">Add Patient</a></li>
+
+          </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Begin page content -->
+  <div class="container">
+    <div class="alert alert-success"
+         th:if="${globalMessage}"
+         th:text="${globalMessage}">
+      Some Success patient
+    </div>
+    <div layout:fragment="content">
+      Fake content
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
