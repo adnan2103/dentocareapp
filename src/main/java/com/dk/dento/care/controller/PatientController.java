@@ -21,7 +21,6 @@ import com.dk.dento.care.security.CurrentUser;
 /**
  * Controller for managing {@link Patient} instances.
  *
- * @author Rob Winch
  *
  */
 @Controller
@@ -38,7 +37,7 @@ public class PatientController {
 
     @RequestMapping(method=RequestMethod.GET)
     public String list(Model model) {
-        Iterable<Patient> patients = patientRepository.findAllToCurrentUser();
+        Iterable<Patient> patients = patientRepository.findAllToCurrentDoctor();
         model.addAttribute("patients", patients);
         return "patient/dashboard";
     }
@@ -46,7 +45,6 @@ public class PatientController {
     @RequestMapping(value = "{id}", method=RequestMethod.GET)
     public String view(@PathVariable Long id, Model model) {
         Patient patient = patientRepository.findOne(id);
-        System.out.println("Adnan : "+patient);
         model.addAttribute("patient",patient);
         return "patient/detail";
     }
@@ -58,7 +56,7 @@ public class PatientController {
         return "redirect:/";
     }
 
-    @RequestMapping(params="form", method=RequestMethod.GET)
+    @RequestMapping(params="add", method=RequestMethod.GET)
     public String createForm(@ModelAttribute PatientForm patientForm) {
         return "patient/add";
     }

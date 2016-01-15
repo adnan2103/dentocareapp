@@ -12,7 +12,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 public interface PatientRepository extends CrudRepository<Patient, Long> {
 
     @Query("select p from Patient p where p.to.id = ?#{principal.id}")
-    Iterable<Patient> findAllToCurrentUser();
+    Iterable<Patient> findAllToCurrentDoctor();
 
     @PostAuthorize("hasPermission(returnObject,'read')")
     Patient findOne(Long id);

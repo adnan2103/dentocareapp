@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 /**
  * Allows users to sign up.
  *
- * @author Rob Winch
  *
  */
 @Controller
