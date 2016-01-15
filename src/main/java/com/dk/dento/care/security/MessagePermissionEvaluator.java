@@ -25,7 +25,7 @@ public class MessagePermissionEvaluator implements PermissionEvaluator {
 			return true;
 		}
 		Doctor currentDoctor = (Doctor) authentication.getPrincipal();
-		return currentDoctor.getId().equals(patient.getTo().getId());
+		return currentDoctor.getDoctorId().equals(patient.getDoctor().getDoctorId());
 	}
 
 	/* (non-Javadoc)

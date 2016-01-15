@@ -3,13 +3,18 @@ package com.dk.dento.care.data;
 import java.util.Calendar;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.print.Doc;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -19,85 +24,56 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
+@Table(name = "patient")
 public class Patient {
     @Id
     @SequenceGenerator(name = "patient_id_seq", sequenceName = "patient_id_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "patient_id_seq")
-    private Long id;
+    @Column(name = "patient_id")
+    private Long patientId;
 
-    @NotEmpty(message = "Patient is required.")
-    private String message;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor", nullable = false, referencedColumnName = "doctor_id")
+    private Doctor doctor;
 
-    @NotEmpty(message = "Summary is required.")
-    private String summary;
+    @NotEmpty(message = "Patient First Name is required.")
+    @Column(name = "first_name")
+    private String firstName;
 
-    private Calendar created = Calendar.getInstance();
+    @NotEmpty(message = "Patient Last Name required.")
+    @Column(name = "last_name")
+    private String lastName;
 
-    @OneToOne(fetch= FetchType.EAGER,cascade= CascadeType.ALL)
-    @NotNull
-    private Doctor to;
 
-    @OneToOne(fetch= FetchType.EAGER,cascade= CascadeType.ALL)
-    @NotNull
-    private Doctor from;
-    
-    public Doctor getFrom() {
-		return from;
-	}
-
-	public void setFrom(Doctor from) {
-		this.from = from;
-	}
-
-	public Doctor getTo() {
-        return to;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setTo(Doctor to) {
-        this.to = to;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public Long getId() {
-        return id;
+    public Long getPatientId() {
+        return patientId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPatientId(Long patinetId) {
+        this.patientId = patinetId;
     }
 
-    public Calendar getCreated() {
-        return created;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setCreated(Calendar created) {
-        this.created = created;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getMessage() {
-        return message;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "id=" + id +
-                ", message='" + message + '\'' +
-                ", summary='" + summary + '\'' +
-                ", created=" + created +
-                ", to=" + to +
-                ", from=" + from +
-                '}';
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

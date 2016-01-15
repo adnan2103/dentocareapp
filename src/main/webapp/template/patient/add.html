@@ -18,24 +18,18 @@
                     Validation error
                   </p>
                 </div>
-                <label for="to">
-                  To
+                <label for="firstName">
+                  First Name
                 </label>
                 <input type="text"
-                       th:field="*{toEmail}"
-                       th:class="${#fields.hasErrors('toEmail')} ? 'field-error'"/>
-                <label for="summary">
-                  Summary
+                       th:field="*{firstName}"
+                       th:class="${#fields.hasErrors('firstName')} ? 'field-error'"/>
+                <label for="lastName">
+                  Last Name
                 </label>
                 <input type="text"
-                       th:field="*{summary}"
-                       th:class="${#fields.hasErrors('summary')} ? 'field-error'"/>
-                <label for="message">
-                  Message
-                </label>
-                <textarea th:field="*{message}"
-                          th:class="${#fields.hasErrors('message')} ? 'field-error'">
-                </textarea>
+                       th:field="*{lastName}"
+                       th:class="${#fields.hasErrors('lastName')} ? 'field-error'"/>
                 <div class="form-actions">
                   <input type="submit" value="Create"/>
                 </div>

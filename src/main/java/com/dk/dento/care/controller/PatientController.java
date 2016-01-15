@@ -6,7 +6,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dk.dento.care.data.*;
 import com.dk.dento.care.data.Patient;
-import com.dk.dento.care.security.CurrentUser;
 
 /**
  * Controller for managing {@link Patient} instances.
@@ -37,7 +35,7 @@ public class PatientController {
 
     @RequestMapping(method=RequestMethod.GET)
     public String list(Model model) {
-        Iterable<Patient> patients = patientRepository.findAllToCurrentDoctor();
+        Iterable<Patient> patients = doctorRepository.findOne(1L).getPatients();
         model.addAttribute("patients", patients);
         return "patient/dashboard";
     }
@@ -62,22 +60,16 @@ public class PatientController {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public String create(@CurrentUser Doctor currentDoctor, @Valid PatientForm patientForm, BindingResult result, RedirectAttributes redirect) {
-        Doctor to = doctorRepository.findByEmail(patientForm.getToEmail());
-        if(to == null) {
-            result.rejectValue("toEmail","toEmail", "Doctor not found");
-        }
-        if(result.hasErrors()) {
-            return "patient/add";
-        }
+    public String create(@Valid PatientForm patientForm, RedirectAttributes redirect) {
+
 
         Patient patient = new Patient();
-        patient.setSummary(patientForm.getSummary());
-        patient.setMessage(patientForm.getMessage());
-        patient.setTo(to);
-        patient.setFrom(currentDoctor);
+        patient.setDoctor(doctorRepository.findOne(1L));
+        patient.setFirstName(patientForm.getFirstName());
+        patient.setLastName(patientForm.getLastName());
 
         patientRepository.save(patient);
+
 
         
         redirect.addFlashAttribute("globalMessage", "Patient added successfully");

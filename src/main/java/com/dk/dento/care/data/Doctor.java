@@ -1,13 +1,19 @@
 package com.dk.dento.care.data;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -22,12 +28,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * </p>
  */
 @Entity
+@Table(name = "doctor")
 public class Doctor implements Serializable {
 
     @Id
     @SequenceGenerator(name = "doctor_id_seq", sequenceName = "doctor_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctor_id_seq")
-    private Long id;
+    @Column(name = "doctor_id")
+    private Long doctorId;
 
     @NotEmpty(message = "First name is required.")
     @Column(name = "first_name")
@@ -45,15 +53,28 @@ public class Doctor implements Serializable {
     @NotEmpty(message = "Password is required.")
     private String password;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy="doctor")
+    private Collection<Patient> patients;
+
+
+    public Collection<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Collection<Patient> patients) {
+        this.patients = patients;
+    }
+
     public Doctor() {}
 
     public Doctor(Doctor doctor) {
-        this.id = doctor.id;
+        this.doctorId = doctor.doctorId;
         this.firstName = doctor.firstName;
         this.lastName = doctor.lastName;
         this.email = doctor.email;
         this.password = doctor.password;
     }
+
 
     public String getPassword() {
         return password;
@@ -63,12 +84,12 @@ public class Doctor implements Serializable {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
+    public Long getDoctorId() {
+        return doctorId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
     }
 
     public String getFirstName() {

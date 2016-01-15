@@ -9,7 +9,6 @@
             <thead>
                 <tr>
                     <th>Created</th>
-                    <th>Summary</th>
                     <th>Delete</th>
                 </tr>
             </thead>
@@ -18,9 +17,8 @@
                     <td colspan="3">No Patient</td>
                   </tr>
                   <tr th:each="patient : ${patients}">
-                    <td th:text="${#calendars.format(patient.created)}">July 11, 2012 2:17:16 PM CDT</td>
-                    <td><a href="view.html" th:href="@{'/' + ${patient.id}}" th:text="${patient.summary}">The summary</a></td>
-                    <td><form class="form-inline" th:action="@{'/' + ${patient.id}}" th:method="delete"><input type="submit" value="Delete"/></form></td>
+                    <td><a href="view.html" th:href="@{'/' + ${patient.patientId}}" th:text="${patient.firstName}">FirstName</a></td>
+                    <td><form class="form-inline" th:action="@{'/' + ${patient.patientId}}" th:method="delete"><input type="submit" value="Delete"/></form></td>
                 </tr>
             </tbody>
         </table>

@@ -5,37 +5,25 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class PatientForm {
 
-    @NotEmpty(message = "Patient is required.")
-    private String message;
+    @NotEmpty(message = "Patient First Name is required.")
+    private String firstName;
 
-    @NotEmpty(message = "Summary is required.")
-    private String summary;
+    @NotEmpty(message = "Patient Last Name is required.")
+    private String lastName;
 
-    @NotEmpty(message = "Email is required.")
-    @Email
-    private String toEmail;
-
-    public String getMessage() {
-        return message;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getToEmail() {
-        return toEmail;
-    }
-
-    public void setToEmail(String toEmail) {
-        this.toEmail = toEmail;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
