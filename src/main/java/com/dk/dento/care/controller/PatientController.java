@@ -4,6 +4,8 @@ package com.dk.dento.care.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,7 +37,11 @@ public class PatientController {
 
     @RequestMapping(method=RequestMethod.GET)
     public String list(Model model) {
-        Iterable<Patient> patients = doctorRepository.findOne(1L).getPatients();
+
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Doctor currentDoctor = (Doctor) authentication.getPrincipal();
+        // @TODO currentDoctor object shuld be loaded with all patients.
+        Iterable<Patient> patients = doctorRepository.findOne(currentDoctor.getDoctorId()).getPatients();
         model.addAttribute("patients", patients);
         return "patient/dashboard";
     }
@@ -47,7 +53,7 @@ public class PatientController {
         return "patient/detail";
     }
 
-    @RequestMapping(value = "{id}", method=RequestMethod.DELETE)
+    @RequestMapping(value = "{id}", method=RequestMethod.POST)
     public String delete(@PathVariable("id") Patient patient, RedirectAttributes redirect) {
         patientRepository.delete(patient);
         redirect.addFlashAttribute("globalMessage", "Patient removed successfully");
@@ -63,8 +69,11 @@ public class PatientController {
     public String create(@Valid PatientForm patientForm, RedirectAttributes redirect) {
 
 
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Doctor currentDoctor = (Doctor) authentication.getPrincipal();
+
         Patient patient = new Patient();
-        patient.setDoctor(doctorRepository.findOne(1L));
+        patient.setDoctor(currentDoctor);
         patient.setFirstName(patientForm.getFirstName());
         patient.setLastName(patientForm.getLastName());
 

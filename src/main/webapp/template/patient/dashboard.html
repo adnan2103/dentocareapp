@@ -18,7 +18,7 @@
                   </tr>
                   <tr th:each="patient : ${patients}">
                     <td><a href="view.html" th:href="@{'/' + ${patient.patientId}}" th:text="${patient.firstName}">FirstName</a></td>
-                    <td><form class="form-inline" th:action="@{'/' + ${patient.patientId}}" th:method="delete"><input type="submit" value="Delete"/></form></td>
+                    <td><form class="form-inline" th:action="@{'/' + ${patient.patientId}}" th:method="post"><input type="submit" value="Delete"/></form></td>
                 </tr>
             </tbody>
         </table>
