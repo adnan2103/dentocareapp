@@ -32,7 +32,7 @@ public class Patient {
     @Column(name = "patient_id")
     private Long patientId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor", nullable = false, referencedColumnName = "doctor_id")
     private Doctor doctor;
 

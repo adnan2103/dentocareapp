@@ -53,7 +53,7 @@ public class Doctor implements Serializable {
     @NotEmpty(message = "Password is required.")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy="doctor")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy="doctor")
     private Collection<Patient> patients;
 
 

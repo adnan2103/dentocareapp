@@ -1,5 +1,10 @@
 DROP TABLE patient;
 DROP TABLE doctor;
+
+DROP SEQUENCE patient_id_seq;
+DROP SEQUENCE doctor_id_seq;
+
+
 CREATE TABLE doctor
 (
   doctor_id integer NOT NULL,
@@ -32,8 +37,6 @@ insert into doctor(doctor_id,email,password,first_name,last_name) values (2,'dan
 update doctor set password = '$2a$10$FBAKClV1zBIOOC9XMXf3AO8RoGXYVYsfvUdoLxGkd/BnXEn4tqT3u';
 
 
-DROP SEQUENCE patient_id_seq;
-DROP SEQUENCE doctor_id_seq;
 
 CREATE SEQUENCE patient_id_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE doctor_id_seq START WITH 3 INCREMENT BY 1;
